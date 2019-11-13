@@ -7,8 +7,8 @@ package ca
 
 import (
 	"crypto"
-	"crypto/ecdsa"
 	"crypto/rand"
+	"crypto/rsa"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
@@ -96,7 +96,7 @@ func NewCA(baseDir, org, name, country, province, locality, orgUnit, streetAddre
 
 // SignCertificate creates a signed certificate based on a built-in template
 // and saves it in baseDir/name
-func (ca *CA) SignCertificate(baseDir, name string, ous, sans []string, pub *ecdsa.PublicKey,
+func (ca *CA) SignCertificate(baseDir, name string, ous, sans []string, pub *rsa.PublicKey,
 	ku x509.KeyUsage, eku []x509.ExtKeyUsage) (*x509.Certificate, error) {
 
 	template := x509Template()
@@ -188,7 +188,7 @@ func x509Template() x509.Certificate {
 }
 
 // generate a signed X509 certificate using ECDSA
-func genCertificateECDSA(baseDir, name string, template, parent *x509.Certificate, pub *ecdsa.PublicKey,
+func genCertificateECDSA(baseDir, name string, template, parent *x509.Certificate, pub *rsa.PublicKey,
 	priv interface{}) (*x509.Certificate, error) {
 
 	//create the x509 public cert

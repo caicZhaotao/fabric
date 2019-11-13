@@ -7,7 +7,7 @@ package csp
 
 import (
 	"crypto"
-	"crypto/ecdsa"
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"io/ioutil"
@@ -100,7 +100,7 @@ func GeneratePrivateKey(keystorePath string) (bccsp.Key,
 	csp, err := factory.GetBCCSPFromOpts(opts)
 	if err == nil {
 		// generate a key
-		priv, err = csp.KeyGen(&bccsp.ECDSAP256KeyGenOpts{Temporary: false})
+		priv, err = csp.KeyGen(&bccsp.RSA2048KeyGenOpts{Temporary: false})
 		if err == nil {
 			// create a crypto.Signer
 			s, err = signer.New(csp, priv)
@@ -109,7 +109,7 @@ func GeneratePrivateKey(keystorePath string) (bccsp.Key,
 	return priv, s, err
 }
 
-func GetECPublicKey(priv bccsp.Key) (*ecdsa.PublicKey, error) {
+func GetECPublicKey(priv bccsp.Key) (*rsa.PublicKey, error) {
 
 	// get the public key
 	pubKey, err := priv.PublicKey()
@@ -126,5 +126,5 @@ func GetECPublicKey(priv bccsp.Key) (*ecdsa.PublicKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ecPubKey.(*ecdsa.PublicKey), nil
+	return ecPubKey.(*rsa.PublicKey), nil
 }
