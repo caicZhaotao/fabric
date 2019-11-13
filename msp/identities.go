@@ -240,7 +240,7 @@ func (id *signingidentity) Sign(msg []byte) ([]byte, error) {
 	mspIdentityLogger.Debugf("Sign: digest: %X \n", digest)
 
 	// Sign
-	return id.signer.Sign(rand.Reader, digest, nil)
+	return id.signer.Sign(rand.Reader, digest, crypto.SHA256)
 }
 
 // GetPublicVersion returns the public version of this identity,
